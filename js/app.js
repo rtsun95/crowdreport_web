@@ -1,38 +1,51 @@
 (function(){
 
-	var app = angular.module('crowdReport', []);
+	var app = angular.module('crowdReport', ['ngRoute']);
 
-	app.controller('CrowdReportController', function($scope){
+	app.controller('CrowdReportController', function($scope, $route, $routeParams, $location){
 		$scope.products = gems;
-	});
 
-	app.controller('sidebarController', function($scope, $location) {
 		$scope.isActive = function(viewLocation) {
 			return viewLocation === $location.path();
 		}
-		// $scope.review = {};
 
-		// $scope.addReview = function(product) {
-		// 	product.reviews.push($scope.review);
-		// 	$scope.review = {};
-		// };
+		$scope.$route = $route;
+     	$scope.$location = $location;
+     	$scope.$routeParams = $routeParams;
 	});
 
-	app.controller('PanelController', function($scope){
-		$scope.tab = 1;
+	app.controller('OverviewController', function($scope, $routeParams){
+		$scope.name = "OverviewController";
+    	$scope.params = $routeParams;
+	});
 
-		$scope.selectTab = function(setTab) {
-			$scope.tab = setTab;
+
+	app.controller('CategoryController', function($scope, $routeParams, $route){
+		$scope.name = "CategoryController";
+    	$scope.params = $routeParams;
+    	$scope.issues = gems;
+    	$scope.reloadRoute = function() {
+		   $route.reload();
 		}
-		$scope.isSelected = function(checkTab) {
-			return $scope.tab === checkTab;
-		}
 	});
 
-	app.controller('IssuesController', function($scope){
-		$scope.issues = gems ;
-	});
 
+	app.config(function($routeProvider, $locationProvider) {
+		$routeProvider
+		.when('/category', {
+			templateUrl: '/category.html',
+			controller: 'CategoryController'
+		})
+		.when('/', {
+			templateUrl: '/dashboard.html',
+			controller: 'OverviewController'
+		})
+		.otherwise({
+            redirectTo: '/'
+        });;
+
+		//$locationProvider.html5Mode(true);
+	});
 	
 
 	var gems = [
