@@ -29,6 +29,10 @@
 		}
 	});
 
+	app.controller('IssuesController', function($scope){
+		$scope.issues = gems ;
+	});
+
 	
 
 	var gems = [
