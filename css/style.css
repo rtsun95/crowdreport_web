@@ -1,0 +1,153 @@
+body{
+    background-color: #3F51B5;
+    font-family: 'Roboto', sans-serif;
+    color:#212121;
+    margin:0;
+    overflow-y:hidden;
+}
+/* unvisited link */
+a:link {
+    color: #212121;
+    text-decoration: none;
+}
+ 
+/* visited link */
+a:visited {
+    color: #212121;
+    text-decoration: none;
+}
+ 
+/* mouse over link */
+a:hover {
+    color: rgb(221, 75, 29);
+    text-decoration: none;
+}
+ 
+/* selected link */
+a:active {
+    color: #212121;
+    text-decoration: none;
+}
+ 
+.phone{
+    width:auto;
+    height:600px;
+}
+.white{
+    background-color: white;
+    height:100vh;
+}
+.center{
+    text-align: center;
+}
+.applogo{
+    text-align: center;
+    align-content: center;
+}
+.grid-container{
+    width: 100%; 
+    max-width: 1200px; 
+}
+.row:before, 
+.row:after {
+    content:"";
+    display: table ;
+    clear:both;
+}
+.row{
+    height:100%;
+}
+[class*='col-'] {
+    float: left; 
+    min-height: 1px; 
+    width: 16.66%; 
+    /*-- our gutter -- */
+    padding-right: 12px; 
+}
+ 
+.col-1{ width: 16.66%; }
+.col-2{ width: 33.33%; }
+.col-3{ width: 50%;    }
+.col-4{ width: 66.66%; }
+.col-5{ width: 83.33%; }
+.col-6{ width: 100%;   }
+ 
+.right{
+    text-align: right;
+}
+.login{
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:30px;
+	top:12px;
+	width:150px;
+	font-size:2em;
+	background-color:#3F51B5;
+	color:white;
+	text-align : center;
+	padding:5px;
+    border-radius: 10px;
+}
+ .login:hover{
+	background-color:#303F9F;
+ }
+/*-- some extra column content styling --*/
+[class*='col-'] > p {
+ padding: 0;
+ margin: 0;
+ color: #212121; 
+    font-weight: 400;
+    text-align: justify;
+}
+ 
+@media all and (max-width:800px){
+    .col-1{ width: 33.33%;  }
+    .col-2{ width: 50%;     }
+    .col-3{ width: 83.33%;  }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;    }
+ 
+    .row .col-2:last-of-type{
+        width: 100%; 
+    }
+ 
+    .row .col-5 ~ .col-1{
+        width: 100%; 
+    }
+    .right{
+         text-align: center; 
+    }
+}
+ 
+@media all and (max-width:650px){
+    .col-1{ width: 50%;     }
+    .col-2{ width: 100%;    }
+    .col-3{ width: 100%;    }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;    }
+    .right{
+         text-align: center; 
+    }
+}
+.text{
+    vertical-align: middle;
+    padding:1em;
+}
+h1{
+    background-color: #3F51B5;
+    -ms-transform:skewX(-15deg);
+    -webkit-transform:skewX(-15deg);
+    transform:skewX(-15deg);
+    font-weight: 900;
+    margin:0.5em;
+    padding:0.5em;
+    text-align: center;
+    color:white;
+}
+h2{
+    font-weight: 500;
+    margin-bottom:1em;
+    text-align: center;
+}
