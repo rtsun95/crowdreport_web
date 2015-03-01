@@ -2,6 +2,52 @@
 
 dd { margin-bottom: 10px; }
 
+#top-navbar {background-color: #3F51B5}
+
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+  color: #fff;
+  background-color: #3F51B5;
+}
+
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+  background-color: #8BC34A !important;
+}
+
+#brand-pic {
+    background-color: #3F51B5;
+    -ms-transform:skewX(-15deg);
+    -webkit-transform:skewX(-15deg);
+    transform:skewX(-15deg);
+    font-weight: 900;
+    margin-left:0.5em;
+    text-align: center;
+    color:white;
+}
+
+
+/*.navbar-inverse .navbar-nav>li>a {
+  color:white;
+  font-size: 150% !important;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-nav>li>a:hover {color: #aaaaaa;}
+*/
+
+
+/*
+<color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="light">#C5CAE9</color>
+    <color name="text">#212121</color>
+    <color name="accent">#8BC34A</color>
+    <color name="accent_dark">#8BC34A</color>
+*/
+
+
+
+
 /*
  * Base structure
  */
@@ -9,6 +55,7 @@ dd { margin-bottom: 10px; }
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
   padding-top: 50px;
+  color: #212121 !important;
 }
 
 

@@ -16,11 +16,13 @@
 	<!-- Custom styles for this template -->
 	<link href="css/app.css" rel="stylesheet">
 
+  <link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body ng-controller="CrowdReportController">
 
-  	<nav class="navbar navbar-inverse navbar-fixed-top">
+  	<nav class="navbar navbar-inverse navbar-fixed-top" id="top-navbar">
   		<div class="container-fluid">
   			<div class="navbar-header">
   				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -29,7 +31,8 @@
   					<span class="icon-bar"></span>
   					<span class="icon-bar"></span>
   				</button>
-  				<a class="navbar-brand" href="#/">CrowdReport</a>
+  				<!-- <a class="navbar-brand" href="#/"><span style="color:#5cb85c;font-size:120%">Crowd</span><span style="color:#d9534f;font-size:120%">Report</span></a> -->
+          <a class="navbar-brand" href="#/" id="brand-pic">CrowdReport</a>
   			</div>
   			<div id="navbar" class="navbar-collapse collapse">
   				<ul class="nav navbar-nav navbar-right">
