@@ -1,1 +1,28 @@
-Hello world
+<h1 class="page-header">{{issue.category}}</h1>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+    	<img src="http://static.tumblr.com/gvzq1of/mjUm9oihg/8999109631122661516.png" />
+    </div>
+  	<div class="col-md-8" style="font-size:120%">
+  		<dl class="dl-horizontal" >
+		  <dt>Category</dt>
+		  <dd>{{issue.category}}</dd>
+		  <dt>Created At</dt>
+		  <dd>{{issue.createtime.toDateString()}}</dd>
+		  <dt>Description</dt>
+		  <dd>{{issue.description}}</dd>
+		  <dt>Location</dt>
+		  <!-- <dd><a href="#/map/{{issue.id}}">Here</a></dd> -->
+		  <dd>
+		  	<ui-gmap-google-map center='map.center' zoom='map.zoom' pan="map.pan">
+				<ui-gmap-marker coords="marker.center" idkey="marker.id"></ui-gmap-marker>
+			</ui-gmap-google-map>
+		  </dd>
+		</dl>
+  	</div>
+  </div>
+</div>
+
+

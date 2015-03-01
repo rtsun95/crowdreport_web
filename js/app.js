@@ -24,43 +24,29 @@
 	app.controller('CategoryController', function($scope, $routeParams, Azureservice){
 		$scope.name = "CategoryController";
 
+		$scope.categoryFilter = '';
 		$scope.orderByField = 'date';
   		$scope.reverseSort = false;
 
-	    Azureservice.invokeApi('fullinfo', {method: 'get'})
+  		Azureservice.query('Issue', {})
 	    .then(function(items) {
-	       	$scope.isLoaded = true;
+	        $scope.isLoaded = true;
 	        $scope.issues = items;
-	    }, function(err) {
-	        console.error('Azure Error: ' + err);
-	    });
+	        console.log(items);
 
+	    }, function(err) {
+	        console.error('There was an error quering Azure ' + err);
+	    });
 	});
 
 	app.controller('MapController', function($scope, $routeParams, Azureservice){
-		var lat, lon;
 		$scope.name = "MapController";
 
-		if (!jQuery.isEmptyObject($routeParams)) {
-	    	Azureservice.getById('Issue', $routeParams.id)
-	    	.then(function(item) {
-		        console.log('Query successful');
-		        $scope.map = {
-		        	center: { latitude: item.lat, longitude: item.lon }, 
-		        	zoom: 15,
-		        	pan: true
-		        };
-		    }, function(err) {
-		        console.error('Azure Error: ' + err);
-		    });
-	    } else {
-	    	$scope.map = {
-	    		center: { latitude: 40.101952, longitude: -88.227162 }, 
-	    		zoom: 15,
-	    		pan: true
-	    	};
-	    }
-
+    	$scope.map = {
+    		center: { latitude: 40.101952, longitude: -88.227162 }, 
+    		zoom: 15,
+    		pan: true
+    	};
 	    $scope.marker = {
 	    	id: 0
 	    };
@@ -68,6 +54,24 @@
 
 	app.controller('DetailController', function($scope, $routeParams, Azureservice){
 		$scope.name = "DetailController";
+
+		Azureservice.getById('Issue', $routeParams.id)
+    	.then(function(item) {
+	        $scope.issue = item;
+	        $scope.map = {
+	        	center: { latitude: item.lat, longitude: item.lon }, 
+	        	zoom: 15,
+	        	pan: true
+	        };
+	        $scope.marker = {
+		    	id: 1,
+		    	center: { latitude: item.lat, longitude: item.lon }
+		    };
+	    }, function(err) {
+	        console.error('Azure Error: ' + err);
+	    });
+
+
 	});
 
 
@@ -78,10 +82,6 @@
 			controller: 'CategoryController'
 		})
 		.when('/map', {
-			templateUrl: '/map.html',
-			controller: 'MapController'
-		})
-		.when('/map/:id', {
 			templateUrl: '/map.html',
 			controller: 'MapController'
 		})
