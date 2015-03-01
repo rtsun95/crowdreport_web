@@ -1,5 +1,4 @@
 <h1 class="page-header">Map</h1>
-
 <ui-gmap-google-map center='map.center' zoom='map.zoom' pan="map.pan">
-	<ui-gmap-marker coords="map.center" idkey="marker.id"></ui-gmap-marker>
+  <ui-gmap-markers models='markers' idkey="markers.id" coords='"self"'/> </ui-gmap-markers>
 </ui-gmap-google-map>

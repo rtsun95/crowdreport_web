@@ -41,15 +41,33 @@
 
 	app.controller('MapController', function($scope, $routeParams, Azureservice){
 		$scope.name = "MapController";
-
-    	$scope.map = {
-    		center: { latitude: 40.101952, longitude: -88.227162 }, 
-    		zoom: 15,
-    		pan: true
-    	};
-	    $scope.marker = {
-	    	id: 0
-	    };
+		var geocoder = new google.maps.Geocoder();		
+		Azureservice.query('Issue', $routeParams.id)
+    	.then(function(items) {
+	        $scope.issue = items;
+			$scope.map = {
+				center: { latitude: 40.101952, longitude: -88.227162 }, 
+				zoom: 13,
+				pan: true
+			};
+			var buildMarker = function(item, idKey){
+				var ret = {
+					id: idKey+10,
+					latitude: item.lat, 
+					longitude: item.lon
+				};
+      			return ret;
+			};
+			$scope.markers = []
+			var constructMarkers = []
+			for(var i = 0 ; i < items.length ; i++){
+				constructMarkers.push(buildMarker(items[i], i))
+			}
+			$scope.markers = constructMarkers;
+			console.log($scope.markers);
+		},function(err) {
+	        console.error('Azure Error: ' + err);
+	    });
 	});
 
 	app.controller('DetailController', function($scope, $route, $routeParams, Azureservice){
