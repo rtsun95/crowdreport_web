@@ -20,11 +20,19 @@ dd { margin-bottom: 10px; }
     -webkit-transform:skewX(-15deg);
     transform:skewX(-15deg);
     font-weight: 900;
-    margin-left:0.5em;
+    margin-left:2.5em;
     text-align: center;
     color:white;
+	z-index:1;
 }
-
+.logo{
+	display:inline !important;
+	top: -3px;
+position: absolute;
+left: 22px;
+height: 80px;
+z-index:2;
+}
 /*
  * Base structure
  */

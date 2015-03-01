@@ -43,10 +43,12 @@ a:active {
 .applogo{
     text-align: center;
     align-content: center;
+	max-height:100%;
+	max-width:100%;
 }
 .grid-container{
     width: 100%; 
-    max-width: 1200px; 
+    max-width: 80%; 
 }
 .row:before, 
 .row:after {
