@@ -1,10 +1,13 @@
 (function(){
 
-	var app = angular.module('crowdReport', ['ngRoute']);
+	var app = angular.module('crowdReport', ['ngRoute', 'azure-mobile-service.module', 'uiGmapgoogle-maps']);
+
+	app.constant('AzureMobileServiceClient', {
+	    API_URL : 'https://crowdreport.azure-mobile.net/',
+	    API_KEY : 'IAXYIWkvtVOOMlVehoCEDWscGMFqRT58'
+	});
 
 	app.controller('CrowdReportController', function($scope, $route, $routeParams, $location){
-		$scope.products = gems;
-
 		$scope.isActive = function(viewLocation) {
 			return viewLocation === $location.path();
 		}
@@ -16,96 +19,84 @@
 
 	app.controller('OverviewController', function($scope, $routeParams){
 		$scope.name = "OverviewController";
-    	$scope.params = $routeParams;
 	});
 
-
-	app.controller('CategoryController', function($scope, $routeParams, $route){
+	app.controller('CategoryController', function($scope, $routeParams, Azureservice){
 		$scope.name = "CategoryController";
-    	$scope.params = $routeParams;
-    	$scope.issues = gems;
-    	$scope.reloadRoute = function() {
-		   $route.reload();
-		}
+
+		$scope.orderByField = 'date';
+  		$scope.reverseSort = false;
+
+	    Azureservice.invokeApi('fullinfo', {method: 'get'})
+	    .then(function(items) {
+	       	$scope.isLoaded = true;
+	        $scope.issues = items;
+	    }, function(err) {
+	        console.error('Azure Error: ' + err);
+	    });
+
+	});
+
+	app.controller('MapController', function($scope, $routeParams, Azureservice){
+		var lat, lon;
+		$scope.name = "MapController";
+
+		if (!jQuery.isEmptyObject($routeParams)) {
+	    	Azureservice.getById('Issue', $routeParams.id)
+	    	.then(function(item) {
+		        console.log('Query successful');
+		        $scope.map = {
+		        	center: { latitude: item.lat, longitude: item.lon }, 
+		        	zoom: 15,
+		        	pan: true
+		        };
+		    }, function(err) {
+		        console.error('Azure Error: ' + err);
+		    });
+	    } else {
+	    	$scope.map = {
+	    		center: { latitude: 40.101952, longitude: -88.227162 }, 
+	    		zoom: 15,
+	    		pan: true
+	    	};
+	    }
+
+	    $scope.marker = {
+	    	id: 0
+	    };
+	});
+
+	app.controller('DetailController', function($scope, $routeParams, Azureservice){
+		$scope.name = "DetailController";
 	});
 
 
 	app.config(function($routeProvider, $locationProvider) {
 		$routeProvider
-		.when('/category', {
-			templateUrl: '/category.html',
+		.when('/browse', {
+			templateUrl: '/browse.html',
 			controller: 'CategoryController'
 		})
+		.when('/map', {
+			templateUrl: '/map.html',
+			controller: 'MapController'
+		})
+		.when('/map/:id', {
+			templateUrl: '/map.html',
+			controller: 'MapController'
+		})
+		.when('/detail/:id', {
+			templateUrl: '/detail.html',
+			controller: 'DetailController'
+		})
 		.when('/', {
-			templateUrl: '/dashboard.html',
+			templateUrl: '/overview.html',
 			controller: 'OverviewController'
 		})
 		.otherwise({
             redirectTo: '/'
         });;
 
-		//$locationProvider.html5Mode(true);
 	});
-	
-
-	var gems = [
-	{
-		name: 'Dodecahedron',
-		price: 2,
-		description: 'Hey man',
-		canPurchase: true,
-		isSoldOut: false,
-		reviews: [
-			{
-				stars: 5,
-				body: "I love this product!",
-				author: "joe@thomas.com"	
-			},
-			{
-				stars: 1,
-				body: "I hate it",
-				author: "haha@mailinator.com"	
-			}
-		]
-	},
-	{
-		name: 'Pentagonal Gem',
-		price: 5.95,
-		description: 'Hey girl',
-		canPurchase: true,
-		isSoldOut: false,
-		reviews: [
-			{
-				stars: 4,
-				body: "I love this product!",
-				author: "janet@thomas.com"	
-			},
-			{
-				stars: 3,
-				body: "I hate it",
-				author: "yolo@mailinator.com"	
-			}
-		]
-	},
-	{
-		name: 'Random Gem',
-		price: 3.21,
-		description: 'Hey everyone',
-		canPurchase: true,
-		isSoldOut: false,
-		reviews: [
-			{
-				stars: 3,
-				body: "I love this product!",
-				author: "blah@thomas.com"	
-			},
-			{
-				stars: 2,
-				body: "I hate it",
-				author: "brag@mailinator.com"	
-			}
-		]
-	}
-	];
 
 })();

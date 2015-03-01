@@ -1,0 +1,66 @@
+<h1 class="page-header">Browse</h1>
+
+<div class="container-fluid">
+  	<div class="row form-inline">
+  		<div class="col-md-4">Search: <input ng-model="searchText"></div>
+  		<div class="form-group col-md-8">
+		    <label for="category-filter">Category</label>
+		    <select class="form-control" id="category-filter" ng-model="categoryFilter">
+		    	<option value="">--All--</option>
+	  			<option value="Traffic">Traffic</option>
+	  			<option value="Ugly buildings">Ugly buildings</option>
+	  			<option value="Skinny woman">Skinny woman</option>
+	  		</select>
+		  </div>
+  	</div>
+
+  	<hr>
+
+  	<div class="row">
+  		<img ng-show="!isLoaded"src="/loading.gif" width="200px" class="img-responsive center-block"/>
+			<table ng-show="isLoaded" id="searchTextResults" class="table table-bordered">
+				<thead>
+					<tr>
+						<th>
+							<a ng-click="orderByField='category'; reverseSort = !reverseSort">
+								Category <span ng-show="orderByField == 'category'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							</a>
+						</th>
+						<th>
+							<a ng-click="orderByField='description'; reverseSort = !reverseSort">
+								Description <span ng-show="orderByField == 'description'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							</a>
+						</th>
+						<th>
+							<a ng-click="orderByField='complete'; reverseSort = !reverseSort">
+								isComplete <span ng-show="orderByField == 'complete'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							</a>
+						</th>
+						<th>
+							<a ng-click="orderByField='date'; reverseSort = !reverseSort">
+								Date <span ng-show="orderByField == 'date'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							</a>
+						</th>
+						<th>
+							Check on Map
+						</th>
+						<th>
+							Show Details
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+			    <tr ng-repeat="issue in issues | orderBy:orderByField:reverseSort | filter:searchText | filter:categoryFilter">
+			      <td>{{issue.category}}</td>
+			      <td>{{issue.description}}</td>
+			      <td>{{issue.complete}}</td>
+			      <td>{{issue.__createdAt.toDateString()}}</td>
+			      <td><a href="#/map/{{issue.id}}">Click</td>
+			      <td><a href="#/detail/{{issue.id}}">Click</td>
+			    </tr>
+			  </tbody>
+			</table>
+  	</div>
+</div>
+
+
