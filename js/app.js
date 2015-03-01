@@ -17,8 +17,29 @@
 		$scope.$routeParams = $routeParams;
 	});
 
-	app.controller('OverviewController', function($scope, $routeParams){
+	app.controller('OverviewController', function($scope, $routeParams, Azureservice){
 		$scope.name = "OverviewController";
+		Azureservice.query('Issue', {})
+		.then(function(items) {
+			$scope.issues = items;
+
+			$scope.totalcount = 0;
+			$scope.todaycount = 0;
+			$scope.totalacknowledged = 0;
+			$scope.totalrejected = 0;
+			var today = new Date();
+		    angular.forEach($scope.issues, function(item){
+		        $scope.totalcount++;
+		        $scope.todaycount += item.createtime.getDate()==today.getDate() ? 1 : 0;
+		        $scope.totalacknowledged += item.status==2 ? 1 : 0;
+		        $scope.totalrejected += item.status==1 ? 1 : 0;
+		    });
+			console.log(items);
+
+		}, function(err) {
+			console.error('There was an error querying Azure ' + err);
+		});
+
 	});
 
 	app.controller('CategoryController', function($scope, $routeParams, Azureservice){
@@ -72,7 +93,7 @@
 
 	app.controller('DetailController', function($scope, $route, $routeParams, Azureservice){
 		$scope.name = "DetailController";
-		
+
 		$scope.txt='';
 		var geocoder = new google.maps.Geocoder();
 		Azureservice.getById('Issue', $routeParams.id)
