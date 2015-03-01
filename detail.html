@@ -1,28 +1,50 @@
-<h1 class="page-header">{{issue.category}}</h1>
+<div class="page-header form-inline">
+	<h1 class="form-group">{{issue.category || "Issue"}}</h1>
+	<div class="form-group" style="float:right">
+		<button type="button" class="btn btn-success" style="margin-top:20px" ng-click="acknowledge()">Acknowledge</button>
+		<button type="button" class="btn btn-danger" style="margin-top:20px" ng-click="reject()">Reject</button>
+	</div>
+</div>
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-    	<img src="http://static.tumblr.com/gvzq1of/mjUm9oihg/8999109631122661516.png" />
+    	<img ng-src="{{issue.picture}}" class="img-responsive"/>
     </div>
   	<div class="col-md-8" style="font-size:120%">
   		<dl class="dl-horizontal" >
 		  <dt>Category</dt>
-		  <dd>{{issue.category}}</dd>
+		  <dd>{{issue.category || "Not provided"}}</dd>
 		  <dt>Created At</dt>
-		  <dd>{{issue.createtime.toDateString()}}</dd>
+		  <dd>{{issue.createtime.toLocaleString()}}</dd>
 		  <dt>Description</dt>
-		  <dd>{{issue.description}}</dd>
-		  <dt>Location</dt>
-		  <!-- <dd><a href="#/map/{{issue.id}}">Here</a></dd> -->
+		  <dd>{{issue.description || "Not provided"}}</dd>
+		  <dt>Address</dt>
+		  <dd>{{issue.address || "Not provided"}}</dd>
+			<dt>Status</dt>
 		  <dd>
-		  	<ui-gmap-google-map center='map.center' zoom='map.zoom' pan="map.pan">
-				<ui-gmap-marker coords="marker.center" idkey="marker.id"></ui-gmap-marker>
-			</ui-gmap-google-map>
+		  	<span ng-show="issue.status == 2" class="text-success"><b>Acknowledged</b></span>
+		  	<span ng-show="issue.status == 1" class="text-danger"><b>Rejected</b></span>
+		  	<span ng-show="issue.status == 0 || !issue.status">Not set</span>
 		  </dd>
 		</dl>
   	</div>
   </div>
+  <br>
+	<div class="row">
+		<h2 class="sub-header">Location</h2>
+		<dd>
+	  	<ui-gmap-google-map center='map.center' zoom='map.zoom' pan="map.pan" options="map.options">
+				<ui-gmap-marker coords="marker.center" idkey="marker.id"></ui-gmap-marker>
+			</ui-gmap-google-map>
+	  </dd>
+	</div>
+	<br>
+	<div class="row">
+		<h2 class="sub-header">Comments</h2>
+		
+	</div>
+  
 </div>
 
 

@@ -25,18 +25,18 @@
 		$scope.name = "CategoryController";
 
 		$scope.categoryFilter = '';
-		$scope.orderByField = 'date';
-  		$scope.reverseSort = false;
+		$scope.orderByField = 'createtime';
+		$scope.reverseSort = true;
 
-  		Azureservice.query('Issue', {})
-	    .then(function(items) {
-	        $scope.isLoaded = true;
-	        $scope.issues = items;
-	        console.log(items);
+		Azureservice.query('Issue', {})
+    .then(function(items) {
+        $scope.isLoaded = true;
+        $scope.issues = items;
+        console.log(items);
 
-	    }, function(err) {
-	        console.error('There was an error quering Azure ' + err);
-	    });
+    }, function(err) {
+        console.error('There was an error querying Azure ' + err);
+    });
 	});
 
 	app.controller('MapController', function($scope, $routeParams, Azureservice){
@@ -52,26 +52,58 @@
 	    };
 	});
 
-	app.controller('DetailController', function($scope, $routeParams, Azureservice){
+	app.controller('DetailController', function($scope, $route, $routeParams, Azureservice){
 		$scope.name = "DetailController";
 
+		var geocoder = new google.maps.Geocoder();
 		Azureservice.getById('Issue', $routeParams.id)
     	.then(function(item) {
-	        $scope.issue = item;
-	        $scope.map = {
-	        	center: { latitude: item.lat, longitude: item.lon }, 
-	        	zoom: 15,
-	        	pan: true
-	        };
-	        $scope.marker = {
-		    	id: 1,
-		    	center: { latitude: item.lat, longitude: item.lon }
-		    };
+        $scope.issue = item;
+        $scope.map = {
+        	center: { latitude: item.lat, longitude: item.lon }, 
+        	zoom: 15,
+        	pan: true,
+        };
+        $scope.marker = {
+	    		id: 1,
+	    		center: { latitude: item.lat, longitude: item.lon }
+	    	};
+	    	geocoder.geocode({'latLng': new google.maps.LatLng(item.lat, item.lon)}, function(results, status) {
+		    	if (status == google.maps.GeocoderStatus.OK) {
+		    		$scope.issue.address = results[0].formatted_address;
+			    } else {
+			      alert("Geocoder failed due to: " + status);
+			    }
+		    });
+	    }, function(err) {
+	        console.error('Azure Error: ' + err);
+	  });
+
+    $scope.acknowledge = function() {
+    	Azureservice.update('Issue', {
+	        id: $routeParams.id,
+	        status: 2
+	    })
+	    .then(function() {
+	        console.log('Update successful');
+	        $route.reload()
 	    }, function(err) {
 	        console.error('Azure Error: ' + err);
 	    });
+    }
 
-
+    $scope.reject = function() {
+    	Azureservice.update('Issue', {
+	        id: $routeParams.id,
+	        status: 1
+	    })
+	    .then(function() {
+	        console.log('Update successful');
+	        $route.reload()
+	    }, function(err) {
+	        console.error('Azure Error: ' + err);
+	    });
+    }
 	});
 
 
@@ -94,8 +126,8 @@
 			controller: 'OverviewController'
 		})
 		.otherwise({
-            redirectTo: '/'
-        });;
+        redirectTo: '/'
+    });;
 
 	});
 

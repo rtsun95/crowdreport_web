@@ -35,6 +35,12 @@
   				<ul class="nav navbar-nav navbar-right">
   					<li ng-class="{active: isActive('/')}"><a href="#/">Dashboard</a></li>
   					<li><a href="#/">Help</a></li>
+            <div class="hidden-md hidden-lg nav navbar-nav">
+              <hr>
+              <li ng-class="{active: isActive('/')}"><a href="#/">Overview <span class="sr-only">(current)</span></a></li>
+              <li ng-class="{active: isActive('/browse')}"><a href="#/browse">Browse</a></li>
+              <li ng-class="{active: isActive('/map')}"><a href="#/map">Map</a></li>
+            </div>
   				</ul>
   			</div>
   		</div>

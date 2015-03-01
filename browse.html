@@ -18,7 +18,7 @@
 
   	<div class="row">
   		<img ng-show="!isLoaded"src="/loading.gif" width="200px" class="img-responsive center-block"/>
-			<table ng-show="isLoaded" id="searchTextResults" class="table table-bordered table-condensed">
+			<table ng-show="isLoaded" id="searchTextResults" class="table table-bordered table-condensed table-striped table-hover">
 				<thead>
 					<tr>
 						<th>
@@ -32,8 +32,13 @@
 							</a>
 						</th>
 						<th>
-							<a ng-click="orderByField='date'; reverseSort = !reverseSort">
-								Date <span ng-show="orderByField == 'date'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							<a ng-click="orderByField='status'; reverseSort = !reverseSort">
+								Status <span ng-show="orderByField == 'status'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+							</a>
+						</th>
+						<th>
+							<a ng-click="orderByField='createtime'; reverseSort = !reverseSort">
+								Date <span ng-show="orderByField == 'createtime'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
 							</a>
 						</th>
 						<th>
@@ -45,7 +50,12 @@
 			    <tr ng-repeat="issue in issues | orderBy:orderByField:reverseSort | filter:searchText | filter:{category:categoryFilter}">
 			      <td>{{issue.category}}</td>
 			      <td>{{issue.complete}}</td>
-			      <td>{{issue.createtime.toDateString()}}</td>
+			      <td>
+			      	<span ng-show="issue.status == 2" class="text-success">Acknowledged</span>
+		  			<span ng-show="issue.status == 1" class="text-danger">Rejected</span>
+		  			<span ng-show="issue.status == 0 || !issue.status">Not set</span>
+			      </td>
+			      <td>{{issue.createtime.toLocaleString()}}</td>
 			      <td><a href="#/detail/{{issue.id}}">Click</a></td>
 			    </tr>
 			  </tbody>
